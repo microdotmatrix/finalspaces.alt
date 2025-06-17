@@ -1,5 +1,9 @@
-import { QuoteSearchForm } from "@/components/quotes/search";
+import {
+  QuoteSearchForm,
+  QuoteSearchSkeleton,
+} from "@/components/quotes/search";
 import { Card, CardContent } from "@/components/ui/card";
+import { Suspense } from "react";
 
 export default function Quotes() {
   return (
@@ -13,7 +17,9 @@ export default function Quotes() {
       </div>
 
       <div className="mb-12 container mx-auto max-w-2xl">
-        <QuoteSearchForm />
+        <Suspense fallback={<QuoteSearchSkeleton />}>
+          <QuoteSearchForm />
+        </Suspense>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 container mx-auto max-w-screen-xl">
