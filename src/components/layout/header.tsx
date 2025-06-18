@@ -1,9 +1,15 @@
+"use client";
+
+import { cn } from "@/lib/utils";
 import { UserButton } from "@daveyplate/better-auth-ui";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "../theme/toggle";
 import { Icon } from "../ui/icon";
 
 export const Header = () => {
+  const pathname = usePathname();
+
   return (
     <header className="fixed w-full top-0 z-50 flex items-center justify-between px-4 py-2 lg:py-4">
       <section>
@@ -13,10 +19,18 @@ export const Header = () => {
       </section>
       <section className="flex items-center">
         <nav className="flex items-center gap-3">
-          <Link href="/memorials">
+          <Link
+            href="/memorials"
+            className={cn(
+              pathname.includes("/memorials") ? "text-primary" : ""
+            )}
+          >
             <Icon icon="mdi:image-plus-outline" className="size-9" />
           </Link>
-          <Link href="/quotes">
+          <Link
+            href="/quotes"
+            className={cn(pathname.includes("/quotes") ? "text-primary" : "")}
+          >
             <Icon icon="carbon:quotes" className="size-9" />
           </Link>
         </nav>
