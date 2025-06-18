@@ -15,14 +15,15 @@ export async function UserEpitaphs() {
   const userId = session.user.id;
   const images = await getUserGeneratedImages(userId);
   return (
-    <div className="flex flex-col gap-2 min-h-80">
+    <div className="flex flex-col gap-2 min-h-96">
       <h3>Recent Epitaphs</h3>
-      <ScrollArea className="flex-1 max-h-[calc(100vh-180px)] 2xl:max-h-[calc(100vh-48px)] overflow-y-auto  rounded-md border">
+      <ScrollArea className="flex-1 h-full max-h-[calc(100vh-180px)] 2xl:max-h-[calc(100vh-48px)] overflow-y-auto  rounded-md border">
         {images.length === 0 && (
-          <div className="flex flex-col items-center justify-center gap-2 flex-1">
+          <div className="flex flex-col items-center justify-center gap-2 flex-1 py-24">
             <Icon icon="ph:image-thin" className="size-12" />
-            <p className="text-muted-foreground">
-              Click the + button to create an epitaph
+            <p className="text-muted-foreground flex items-center gap-2">
+              Click the <Icon icon="mdi:plus" className="inline" /> button to
+              create an epitaph
             </p>
           </div>
         )}

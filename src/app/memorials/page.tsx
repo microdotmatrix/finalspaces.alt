@@ -33,17 +33,17 @@ export default async function Memorials() {
               <UserEpitaphs />
             </div>
           </section>
-          <section className="py-12 max-w-5xl mx-auto">
-            <h5>Recent uploads:</h5>
+          <section className="py-12 max-w-3xl mx-auto">
+            <h5 className="text-lg font-semibold">Your Uploads:</h5>
             <Suspense fallback={<div>Loading...</div>}>
               <UserUploads userId={session.user.id} />
             </Suspense>
           </section>
         </>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 max-w-xl mx-auto py-12">
           <p>Please login or register to create an epitaph</p>
-          <div className="flex gap-2">
+          <div className="flex gap-2 mx-auto">
             <Link
               href="/auth/login"
               className={buttonVariants({ variant: "default" })}

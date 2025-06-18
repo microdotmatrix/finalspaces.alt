@@ -5,7 +5,11 @@ export async function UserUploads({ userId }: { userId: string }) {
   const files = await getUserUploads(userId);
 
   if (files.length === 0) {
-    return <p>You have no images saved</p>;
+    return (
+      <p className="mt-2 text-sm text-muted-foreground">
+        You have no images saved
+      </p>
+    );
   }
 
   return (
