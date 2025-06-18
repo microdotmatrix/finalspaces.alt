@@ -6,10 +6,18 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError, UTApi } from "uploadthing/server";
 import { userUpload } from "../db/schema";
 
-const f = createUploadthing();
-
 export const utapi = new UTApi({
   token: process.env.UPLOADTHING_TOKEN!,
+});
+
+const f = createUploadthing({
+  errorFormatter: (error) => {
+    console.log("Error uploading file", error.message);
+    console.log("Cause of error", error.cause);
+    return {
+      message: error.message,
+    };
+  },
 });
 
 // FileRouter for your app, can contain multiple FileRoutes

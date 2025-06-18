@@ -42,7 +42,7 @@ export default async function Memorials() {
         </>
       ) : (
         <div className="flex flex-col gap-2 max-w-xl mx-auto py-12">
-          <figure className="relative overflow-clip">
+          <figure className="relative overflow-clip w-full aspect-square border border-border rounded-lg mb-8">
             <Image
               src="/images/image-generate.png"
               alt="Image Generate"

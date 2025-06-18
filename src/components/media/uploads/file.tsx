@@ -65,10 +65,13 @@ export const FileUpload = ({
     fileInputRef.current?.click();
   };
 
-  const { getRootProps, isDragActive } = useDropzone({
+  const { getRootProps, isDragActive, isDragReject } = useDropzone({
     multiple: false,
-    accept: { "image/png": [], "image/jpeg": [], "image/jpg": [] },
+    accept: {
+      "image/*": [".jpg", ".jpeg", ".png"],
+    },
     maxSize: 4 * 1024 * 1024, // 4 MB
+    maxFiles: 1,
     noClick: true,
     onDrop: handleFileChange,
     onDropAccepted: (files) => {
@@ -107,9 +110,15 @@ export const FileUpload = ({
               Upload file
             </p>
           )}
-          <p className="relative z-20 font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2">
-            Drag or drop your files here or click to upload
-          </p>
+          {isDragReject ? (
+            <p className="relative z-20 font-sans font-bold text-red-500 dark:text-red-500 text-base">
+              Invalid file type
+            </p>
+          ) : (
+            <p className="relative z-20 font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2">
+              Drag or drop your files here or click to upload
+            </p>
+          )}
           <div className="relative w-full mt-10 max-w-xl mx-auto">
             {files.length > 0 &&
               files.map((file, idx) => (

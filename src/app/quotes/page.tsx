@@ -9,9 +9,9 @@ export default function Quotes() {
   return (
     <main className="py-12 px-4">
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold mb-4">Quote Quest</h1>
+        <h1 className="text-4xl font-bold mb-4">Search for Quotes</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Search for famous quotes, sayings, and phrases from history's greatest
+          Explore famous quotes, sayings, and phrases from history's greatest
           minds. Find inspiration by keyword, author, or quote length.
         </p>
       </div>

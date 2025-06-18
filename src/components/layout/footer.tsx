@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="bg-gradient-to-b from-background to-muted py-16 lg:py-48 px-4 md:px-6">
+    <footer className="bg-gradient-to-b from-background to-muted py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto pb-12 lg:pb-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <ContactSection />
