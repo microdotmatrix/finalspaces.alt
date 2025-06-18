@@ -16,30 +16,42 @@ export async function UserEpitaphs() {
   const images = await getUserGeneratedImages(userId);
   return (
     <div className="flex flex-col gap-2 min-h-96">
-      <h3>Recent Epitaphs</h3>
       <ScrollArea className="flex-1 h-full max-h-[calc(100vh-180px)] 2xl:max-h-[calc(100vh-48px)] overflow-y-auto  rounded-md border">
         {images.length === 0 && (
-          <div className="flex flex-col items-center justify-center gap-2 flex-1 py-24">
-            <Icon icon="ph:image-thin" className="size-12" />
-            <p className="text-muted-foreground flex items-center gap-2">
+          <div className="flex flex-col items-center justify-center gap-2 flex-1 py-16 lg:py-24 px-8">
+            <figure className="relative overflow-clip max-w-xl w-full aspect-square border border-border rounded-lg bg-gradient-to-b from-muted/25 to-white/50 dark:to-black/50">
+              <Image
+                src="/images/image-generate.png"
+                alt="Image Generate"
+                fill
+                className="object-contain size-full opacity-50 not-dark:invert not-dark:hue-rotate-180"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </figure>
+            <p className="text-muted-foreground flex items-center gap-2 text-sm">
               Click the <Icon icon="mdi:plus" className="inline" /> button to
               create an epitaph
             </p>
           </div>
         )}
-        <ul className="grid grid-cols-1 sm:grid-cols-2 sm:[&>li]:nth-[3n+1]:col-span-2 lg:grid-cols-2 2xl:grid-cols-3 gap-2 lg:[&>li]:nth-[3n+1]:col-span-2 2xl:[&>li]:nth-[3n+1]:col-span-1">
-          {images.map((image) => (
-            <li key={image.id}>
-              <Suspense
-                fallback={
-                  <div className="size-full aspect-square bg-muted animate-pulse" />
-                }
-              >
-                <EpitaphThumbnail epitaphId={image.epitaphId} />
-              </Suspense>
-            </li>
-          ))}
-        </ul>
+        {images.length > 0 && (
+          <>
+            <h4 className="font-semibold">Recent Epitaphs</h4>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 sm:[&>li]:nth-[3n+1]:col-span-2 lg:grid-cols-2 2xl:grid-cols-3 gap-2 lg:[&>li]:nth-[3n+1]:col-span-2 2xl:[&>li]:nth-[3n+1]:col-span-1">
+              {images.map((image) => (
+                <li key={image.id}>
+                  <Suspense
+                    fallback={
+                      <div className="size-full aspect-square bg-muted animate-pulse" />
+                    }
+                  >
+                    <EpitaphThumbnail epitaphId={image.epitaphId} />
+                  </Suspense>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </ScrollArea>
     </div>
   );

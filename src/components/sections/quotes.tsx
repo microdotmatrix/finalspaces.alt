@@ -60,7 +60,8 @@ export const QuotesSection = () => {
                 href="/quotes"
                 className={buttonVariants({ variant: "default", size: "lg" })}
               >
-                Try it out
+                Search quotes{" "}
+                <Icon icon="lucide:arrow-right" className="inline" />
               </Link>
             </CardFooter>
           </Card>

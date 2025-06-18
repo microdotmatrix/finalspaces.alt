@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { motion } from "motion/react";
 import { CardHeading } from "../elements/card-heading";
@@ -50,6 +50,9 @@ export const ObituarySection = () => {
                 life being honored.
               </p>
             </CardContent>
+            <CardFooter>
+              <span className="text-sm italic">Coming soon...</span>
+            </CardFooter>
           </Card>
         </div>
 
@@ -92,11 +95,11 @@ function ObituaryWriterDemo() {
           <div className="flex-1 bg-muted/30 p-4 rounded-lg relative overflow-hidden">
             <h4 className="text-sm font-medium mb-2">Generated Obituary</h4>
             <div className="space-y-2">
-              <div className="h-4 w-full bg-primary/10 rounded" />
-              <div className="h-4 w-full bg-primary/10 rounded" />
-              <div className="h-4 w-3/4 bg-primary/10 rounded" />
-              <div className="h-4 w-full bg-primary/10 rounded" />
-              <div className="h-4 w-5/6 bg-primary/10 rounded" />
+              <div className="h-4 w-full bg-primary/10 rounded animate-pulse" />
+              <div className="h-4 w-full bg-primary/10 rounded animate-pulse" />
+              <div className="h-4 w-3/4 bg-primary/10 rounded animate-pulse" />
+              <div className="h-4 w-full bg-primary/10 rounded animate-pulse" />
+              <div className="h-4 w-5/6 bg-primary/10 rounded animate-pulse" />
             </div>
 
             <motion.div

@@ -31,7 +31,7 @@ export default async function Create({
   const uploads = await getUserUploads(userId);
 
   return (
-    <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center relative">
+    <main className="flex flex-col lg:flex-row items-center lg:items-start justify-center relative">
       <aside className="flex-none lg:flex-1/3 lg:sticky lg:top-48 mt-12 lg:mt-48 order-2 lg:order-1">
         <CreateImage
           action={createEpitaphs}
@@ -61,6 +61,6 @@ export default async function Create({
           )}
         </Suspense>
       </article>
-    </div>
+    </main>
   );
 }

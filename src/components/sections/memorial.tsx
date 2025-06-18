@@ -51,12 +51,13 @@ export const MemorialSection = () => {
                 and family, or kept as lasting mementos of your loved one.
               </p>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="justify-end">
               <Link
                 href="/memorials"
                 className={buttonVariants({ variant: "default", size: "lg" })}
               >
-                Try it out
+                Create an image{" "}
+                <Icon icon="lucide:arrow-right" className="inline" />
               </Link>
             </CardFooter>
           </Card>

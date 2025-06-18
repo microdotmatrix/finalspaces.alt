@@ -227,4 +227,7 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+  main {
+    margin-block: 5rem;
+  }
 }

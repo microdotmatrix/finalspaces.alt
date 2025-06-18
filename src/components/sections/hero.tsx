@@ -52,7 +52,7 @@ export const HeroSection = () => {
         </motion.h1>
       </div>
 
-      <div className="flex flex-col items-center justify-center lg:mb-12">
+      <div className="flex flex-col items-center justify-center mb-20">
         <motion.p
           className="max-w-3xl text-base md:text-lg text-secondary-foreground/60 mb-8 text-balance"
           initial={{ y: 20, opacity: 0 }}

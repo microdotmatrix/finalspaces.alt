@@ -3,7 +3,7 @@ import { ReturnHome } from "@/components/elements/return-home";
 
 export default function Privacy() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen">
       {/* Header Section */}
       <PageHeading
         heading="Privacy Policy"
