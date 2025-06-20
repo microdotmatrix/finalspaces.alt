@@ -29,7 +29,7 @@ export default async function Memorials() {
                 <Icon icon="mdi:plus" />
               </Link>
             </div>
-            <div className="flex-2 w-full">
+            <div className="flex-2 w-full min-h-[calc(80vh-280px)] flex flex-col justify-center">
               <UserEpitaphs />
             </div>
           </section>

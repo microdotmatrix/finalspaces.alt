@@ -1,5 +1,6 @@
 import { CreateImage } from "@/components/media/memorial/create-image";
 import { ImageResult } from "@/components/media/memorial/image-result";
+import { Icon } from "@/components/ui/icon";
 import { createEpitaphs, getEpitaphImage } from "@/lib/api/actions";
 import type { PlacidImage } from "@/lib/api/placid";
 import { getSession } from "@/lib/auth/server";
@@ -31,15 +32,15 @@ export default async function Create({
   const uploads = await getUserUploads(userId);
 
   return (
-    <main className="flex flex-col lg:flex-row items-center lg:items-start justify-center relative">
-      <aside className="flex-none lg:flex-1/3 lg:sticky lg:top-48 mt-12 lg:mt-48 order-2 lg:order-1">
+    <main className="flex flex-col lg:flex-row items-center lg:items-stretch relative">
+      <aside className="flex-none lg:flex-1/3 sticky lg:top-48 mt-12 lg:mt-48 order-2 lg:order-1">
         <CreateImage
           action={createEpitaphs}
           userId={userId}
           uploads={uploads}
         />
       </aside>
-      <article className="flex-1 lg:flex-2/3 px-4 order-1 lg:order-2">
+      <article className="flex-1 lg:flex-2/3 px-4 order-1 lg:order-2 flex">
         <Suspense fallback={<div>Loading...</div>}>
           {imageIds.length > 0 ? (
             <div className=" grid grid-cols-1 md:grid-cols-1 gap-2">
@@ -53,10 +54,22 @@ export default async function Create({
                 ))}
             </div>
           ) : (
-            <div className="grid place-content-center h-full">
-              <h3 className="text-center py-12">
-                Complete the form to generate your epitaph
-              </h3>
+            <div className="grid place-content-center w-full relative">
+              <div className="flex flex-col lg:flex-row items-center gap-4 pt-12 lg:pt-0">
+                <Icon
+                  icon="line-md:arrow-left"
+                  className="size-8 hidden lg:block"
+                />
+                <h6 className="text-center text-foreground/75">
+                  <span className="starting:opacity-0 opacity-100 transition-all duration-1000 delay-1500">
+                    Complete the form
+                  </span>{" "}
+                  <span className="starting:opacity-0 opacity-100 transition-all duration-1000 delay-2500">
+                    to generate a new image
+                  </span>
+                </h6>
+                <Icon icon="line-md:arrow-down" className="size-8 lg:hidden" />
+              </div>
             </div>
           )}
         </Suspense>

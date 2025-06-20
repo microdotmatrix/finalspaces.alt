@@ -65,23 +65,24 @@ export const FileUpload = ({
     fileInputRef.current?.click();
   };
 
-  const { getRootProps, isDragActive, isDragReject } = useDropzone({
-    multiple: false,
-    accept: {
-      "image/*": [".jpg", ".jpeg", ".png"],
-    },
-    maxSize: 4 * 1024 * 1024, // 4 MB
-    maxFiles: 1,
-    noClick: true,
-    onDrop: handleFileChange,
-    onDropAccepted: (files) => {
-      handleFileChange(files);
-    },
-    onDropRejected: (error) => {
-      console.log(error);
-      toast("File too large");
-    },
-  });
+  const { getRootProps, getInputProps, isDragActive, isDragReject } =
+    useDropzone({
+      multiple: false,
+      accept: {
+        "image/*": [".jpg", ".jpeg", ".png"],
+      },
+      maxSize: 4 * 1024 * 1024, // 4 MB
+      maxFiles: 1,
+      noClick: true,
+      onDrop: handleFileChange,
+      onDropAccepted: (files) => {
+        handleFileChange(files);
+      },
+      onDropRejected: (error) => {
+        console.log(error);
+        toast("File too large");
+      },
+    });
 
   return (
     <div className="w-full" {...getRootProps()}>
@@ -91,6 +92,7 @@ export const FileUpload = ({
         className="p-10 group/file block rounded-lg cursor-pointer w-full relative overflow-hidden"
       >
         <input
+          {...getInputProps()}
           ref={fileInputRef}
           id="file-upload-handle"
           type="file"

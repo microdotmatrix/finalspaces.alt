@@ -12,7 +12,7 @@ export const Footer = () => {
           <ContactSection />
 
           <div>
-            <h3 className="text-2xl font-bold mb-6">Connect With Us</h3>
+            <h4 className="font-bold mb-6">Connect With Us</h4>
             <div className="flex gap-2 mb-8">
               <Button variant="outline" size="icon" asChild>
                 <Link
@@ -58,7 +58,10 @@ export const Footer = () => {
               </p>
               <p className="flex items-center gap-1 mt-12">
                 <Icon icon="mdi:copyright" className="-mt-0.5" />{" "}
-                {new Date().getFullYear()} FinalSpaces. All rights reserved.
+                <span className="font-semibold">
+                  {new Date().getFullYear()} FinalSpaces.
+                </span>{" "}
+                All rights reserved.
               </p>
             </div>
           </div>

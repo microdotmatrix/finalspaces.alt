@@ -20,16 +20,24 @@ export const Header = () => {
       <section className="flex items-center">
         <nav className="flex items-center gap-3">
           <Link
+            href="/dashboard"
+            className={cn(
+              pathname.startsWith("/dashboard") ? "text-primary" : ""
+            )}
+          >
+            <Icon icon="mdi:view-dashboard-outline" className="size-9" />
+          </Link>
+          <Link
             href="/memorials"
             className={cn(
-              pathname.includes("/memorials") ? "text-primary" : ""
+              pathname.startsWith("/memorials") ? "text-primary" : ""
             )}
           >
             <Icon icon="mdi:image-plus-outline" className="size-9" />
           </Link>
           <Link
             href="/quotes"
-            className={cn(pathname.includes("/quotes") ? "text-primary" : "")}
+            className={cn(pathname.startsWith("/quotes") ? "text-primary" : "")}
           >
             <Icon icon="carbon:quotes" className="size-9" />
           </Link>

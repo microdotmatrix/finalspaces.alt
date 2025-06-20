@@ -63,8 +63,8 @@ export function QuoteSearchForm({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">
-          Search for Quotes
+        <CardTitle className="flex items-center justify-end">
+          <Icon icon="carbon:search" className="size-8" />
         </CardTitle>
       </CardHeader>
       <CardContent>

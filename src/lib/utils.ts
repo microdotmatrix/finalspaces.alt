@@ -6,6 +6,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const isBrowser: boolean = typeof window !== "undefined";
+
 // Download image
 export function downloadImage(url: string, filename: string) {
   if (!url) {
@@ -49,11 +51,11 @@ export const getURL = (path: string = "", isProduct = false) => {
     process.env.NEXT_PUBLIC_SITE_URL.trim() !== ""
       ? process.env.NEXT_PUBLIC_SITE_URL
       : // If not set, check for NEXT_PUBLIC_VERCEL_URL, which is automatically set by Vercel.
-      process?.env?.NEXT_PUBLIC_VERCEL_URL &&
-        process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== ""
-      ? process.env.NEXT_PUBLIC_VERCEL_URL
-      : // If neither is set, default to localhost for local development.
-        "http://localhost:3000/";
+        process?.env?.NEXT_PUBLIC_VERCEL_URL &&
+          process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== ""
+        ? process.env.NEXT_PUBLIC_VERCEL_URL
+        : // If neither is set, default to localhost for local development.
+          "http://localhost:3000/";
 
   // Trim the URL and remove trailing slash if exists.
   url = url.replace(/\/+$/, "");

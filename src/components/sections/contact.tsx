@@ -17,7 +17,6 @@ export const ContactSection = () => {
 
   return (
     <form className="flex flex-col gap-2" action={action}>
-      <h3 className="text-2xl font-bold mb-6">Contact Us</h3>
       <div className="space-y-4">
         {state.success ? (
           <Alert>
@@ -30,6 +29,8 @@ export const ContactSection = () => {
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input name="name" type="text" placeholder="Your name" />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input name="email" type="email" placeholder="your@email.com" />
             </div>
