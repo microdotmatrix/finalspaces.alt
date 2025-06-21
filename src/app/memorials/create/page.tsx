@@ -32,7 +32,7 @@ export default async function Create({
   const uploads = await getUserUploads(userId);
 
   return (
-    <main className="flex flex-col lg:flex-row items-center lg:items-stretch relative">
+    <main className="flex flex-col lg:flex-row items-center lg:items-start relative">
       <aside className="flex-none lg:flex-1/3 sticky lg:top-48 mt-12 lg:mt-48 order-2 lg:order-1">
         <CreateImage
           action={createEpitaphs}
