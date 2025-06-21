@@ -55,7 +55,7 @@ export default async function Create({
             </div>
           ) : (
             <div className="grid place-content-center w-full relative">
-              <div className="flex flex-col lg:flex-row items-center gap-4 pt-12 lg:pt-0">
+              <div className="flex flex-col lg:flex-row items-center gap-4 pt-12 lg:pt-24 relative top-0 lg:top-full">
                 <Icon
                   icon="line-md:arrow-left"
                   className="size-8 hidden lg:block"
