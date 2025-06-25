@@ -1,6 +1,6 @@
 "use client";
 
-import { waitlistAction } from "@/lib/api/actions";
+import { waitlistAction } from "@/lib/actions/email";
 import { useActionState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";

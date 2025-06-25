@@ -3,6 +3,8 @@
 import type React from "react";
 
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useState } from "react";
 
@@ -10,15 +12,19 @@ interface AnimatedInputProps {
   name: string;
   label: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  type?: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  type?: "text" | "textarea" | "url" | "email" | "number";
   required?: boolean;
+  placeholder?: string;
 }
 
 export function AnimatedInput({
   name,
   label,
   value,
+  placeholder,
   onChange,
   type = "text",
   required = false,
@@ -42,6 +48,9 @@ export function AnimatedInput({
 
   const isActive = isFocused || value !== "";
 
+  const inputClasses =
+    "outline-none focus:border-transparent transition-all placeholder:opacity-0 focus:placeholder:opacity-100 placeholder:transition-all placeholder:duration-200 placeholder:delay-100 placeholder:ease-in-out placeholder:translate-x-3 focus:placeholder:translate-x-0 placeholder:blur-sm focus:placeholder:blur-none";
+
   return (
     <div className="relative">
       <motion.label
@@ -55,17 +64,32 @@ export function AnimatedInput({
         {label}
       </motion.label>
 
-      <Input
-        type={type}
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        className="outline-none focus:border-transparent transition-all h-10"
-        required={required}
-      />
+      {type === "textarea" ? (
+        <Textarea
+          id={name}
+          name={name}
+          value={value}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className={cn(inputClasses, "h-32")}
+          required={required}
+          placeholder={placeholder}
+        />
+      ) : (
+        <Input
+          type={type}
+          id={name}
+          name={name}
+          value={value}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className={cn(inputClasses, "h-10")}
+          required={required}
+          placeholder={placeholder}
+        />
+      )}
     </div>
   );
 }

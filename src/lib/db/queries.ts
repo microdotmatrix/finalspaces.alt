@@ -1,10 +1,11 @@
+import { UnifiedQuote } from "@/types/quotes";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { auth } from "../auth";
 import { db } from "./index";
-import { userUpload, userGeneratedImage } from "./schema";
+import { savedQuotes, userGeneratedImage, userUpload } from "./schema";
 /**
  * Fetches user uploads from the database
  * @returns Array of user uploads or null if user is not authenticated
@@ -13,7 +14,7 @@ export const getUserUploads = cache(async (userId: string) => {
   // Fetch all uploads for this user
   const uploads = await db.query.userUpload.findMany({
     where: eq(userUpload.userId, userId),
-    orderBy: (uploads) => uploads.createdAt,
+    orderBy: (uploads, { desc }) => [desc(uploads.createdAt)],
   });
 
   return uploads;
@@ -40,7 +41,7 @@ export const getUserUploadsOrRedirect = cache(
     // Fetch all uploads for this user
     const uploads = await db.query.userUpload.findMany({
       where: eq(userUpload.userId, userId),
-      orderBy: (uploads) => uploads.createdAt,
+      orderBy: (uploads, { desc }) => [desc(uploads.createdAt)],
     });
 
     return uploads;
@@ -56,11 +57,11 @@ export const getUserGeneratedEpitaphIds = cache(async (userId: string) => {
   // Fetch all generated images for this user
   const generatedImages = await db.query.userGeneratedImage.findMany({
     where: eq(userGeneratedImage.userId, userId),
-    orderBy: (images) => images.createdAt,
+    orderBy: (images, { desc }) => [desc(images.createdAt)],
   });
 
   // Return the epitaph IDs
-  return generatedImages.map(image => image.epitaphId);
+  return generatedImages.map((image) => image.epitaphId);
 });
 
 /**
@@ -72,7 +73,7 @@ export const getUserGeneratedImages = cache(async (userId: string) => {
   // Fetch all generated images for this user
   const generatedImages = await db.query.userGeneratedImage.findMany({
     where: eq(userGeneratedImage.userId, userId),
-    orderBy: (images) => images.createdAt,
+    orderBy: (images, { desc }) => [desc(images.createdAt)],
   });
 
   return generatedImages;
@@ -103,6 +104,47 @@ export const getUserGeneratedEpitaphIdsOrRedirect = cache(
     });
 
     // Return the epitaph IDs
-    return generatedImages.map(image => image.epitaphId);
+    return generatedImages.map((image) => image.epitaphId);
   }
 );
+
+/**
+ * Get all saved quotes for the current user
+ * Returns an array of quote identifiers (quote text and author)
+ */
+export const getUserSavedQuotes = cache(async () => {
+  // Get the current session
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session || !session.user) {
+    return { quotes: [], savedQuotesMap: new Map() };
+  }
+
+  try {
+    const userId = session.user.id;
+
+    const result = await db.query.savedQuotes.findMany({
+      where: eq(savedQuotes.userId, userId),
+    });
+
+    const savedQuotesMap = new Map<string, boolean>();
+
+    result.forEach((sq) => {
+      const key = `${sq.quote}|${sq.author}`;
+      savedQuotesMap.set(key, true);
+    });
+
+    // Convert saved quotes to UnifiedQuote format for the QuoteCard component
+    const quotes: UnifiedQuote[] = result.map((sq) => ({
+      quote: sq.quote,
+      author: sq.author,
+      source: "Saved Quote", // Default source for saved quotes
+      length: sq.quote.length,
+    }));
+
+    return { quotes, savedQuotesMap };
+  } catch (error) {
+    console.error("Error fetching saved quotes:", error);
+    return { quotes: [], savedQuotesMap: new Map() };
+  }
+});

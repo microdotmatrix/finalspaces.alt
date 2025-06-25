@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { emailAction } from "@/lib/api/actions";
+import { emailAction } from "@/lib/actions/email";
 import { useActionState } from "react";
 
 export const ContactSection = () => {

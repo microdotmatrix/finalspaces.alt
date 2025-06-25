@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Icon } from "@/components/ui/icon";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, FormEvent, useState, useTransition } from "react";
+import { AnimatedInput } from "../elements/form/animated-input";
 
 interface QuoteSearchFormProps {
   initialKeywords?: string;
@@ -51,6 +51,18 @@ export function QuoteSearchForm({
     });
   }
 
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    if (name === "keywords") {
+      setKeywords(value);
+    } else if (name === "author") {
+      setAuthor(value);
+    }
+  };
+
   // Handle checkbox changes
   function handleCheckboxChange(value: string, checked: boolean) {
     if (checked) {
@@ -70,36 +82,25 @@ export function QuoteSearchForm({
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="keywords">Keywords</Label>
-            <Input
-              id="keywords"
+            <AnimatedInput
               name="keywords"
-              placeholder="Enter keywords to search for in quotes (comma-separated)"
+              label="Keywords"
+              placeholder="Search for quotes containing keywords (eg. love, wisdom, etc.)"
               value={keywords}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setKeywords(e.target.value)
-              }
+              onChange={handleChange}
+              type="text"
             />
-            <p className="text-sm text-muted-foreground">
-              Search for words or phrases within quotes (separate multiple
-              keywords with commas)
-            </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="author">Author</Label>
-            <Input
-              id="author"
+            <AnimatedInput
               name="author"
-              placeholder="Enter an author's name"
+              label="Author"
+              placeholder="Search for quotes by a specific author"
               value={author}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setAuthor(e.target.value)
-              }
+              onChange={handleChange}
+              type="text"
             />
-            <p className="text-sm text-muted-foreground">
-              Search for quotes by a specific author
-            </p>
           </div>
 
           <div className="space-y-4">

@@ -67,6 +67,7 @@ export interface PlacidRequest {
   epitaph: string;
   birth: string;
   death: string;
+  citation: string;
 }
 
 export interface PlacidImage {
@@ -101,6 +102,9 @@ export async function generateImage({
         },
         epitaph: {
           text: variables.epitaph,
+        },
+        citation: {
+          text: variables.citation,
         },
         birth: {
           text: variables.birth,

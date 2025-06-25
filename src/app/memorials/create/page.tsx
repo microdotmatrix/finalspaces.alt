@@ -1,14 +1,27 @@
 import { CreateImage } from "@/components/media/memorial/create-image";
 import { ImageResult } from "@/components/media/memorial/image-result";
 import { Icon } from "@/components/ui/icon";
-import { createEpitaphs, getEpitaphImage } from "@/lib/api/actions";
+import { createEpitaphs } from "@/lib/actions/images";
 import type { PlacidImage } from "@/lib/api/placid";
+import { fetchImage } from "@/lib/api/placid";
 import { getSession } from "@/lib/auth/server";
-import { getUserUploads } from "@/lib/db/queries";
+import { getUserSavedQuotes, getUserUploads } from "@/lib/db/queries";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export const experimental_ppr = true;
+
+export async function getEpitaphImage(id: number) {
+  try {
+    if (!id) return null;
+
+    const imageData = await fetchImage(id);
+    return imageData;
+  } catch (error) {
+    console.error("Error fetching epitaph image:", error);
+    return null;
+  }
+}
 
 export default async function Create({
   searchParams,
@@ -30,14 +43,16 @@ export default async function Create({
 
   const userId = session.user.id;
   const uploads = await getUserUploads(userId);
+  const { quotes } = await getUserSavedQuotes();
 
   return (
     <main className="flex flex-col lg:flex-row items-center lg:items-start relative">
-      <aside className="flex-none lg:flex-1/3 sticky lg:top-48 mt-12 lg:mt-48 order-2 lg:order-1">
+      <aside className="flex-none lg:flex-1/3 sticky lg:top-48 mt-12 lg:mt-16 order-2 lg:order-1">
         <CreateImage
           action={createEpitaphs}
           userId={userId}
           uploads={uploads}
+          quotes={quotes}
         />
       </aside>
       <article className="flex-1 lg:flex-2/3 px-4 order-1 lg:order-2 flex">

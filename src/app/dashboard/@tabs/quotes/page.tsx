@@ -1,7 +1,18 @@
-import { buttonVariants } from "@/components/ui/button";
+import { SavedQuotes } from "@/components/quotes/saved";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Icon } from "@/components/ui/icon";
-import Link from "next/link";
+import { Suspense } from "react";
+
+// Loading skeleton for saved quotes
+function SavedQuotesSkeleton() {
+  return (
+    <div className="flex flex-col items-center justify-center py-12 text-center">
+      <div className="h-12 w-12 rounded-full bg-muted animate-pulse mb-4"></div>
+      <div className="h-4 w-48 bg-muted animate-pulse mb-2"></div>
+      <div className="h-4 w-32 bg-muted animate-pulse mb-4"></div>
+      <div className="h-8 w-28 bg-muted animate-pulse rounded-md"></div>
+    </div>
+  );
+}
 
 export default function QuotesTab() {
   return (
@@ -12,26 +23,9 @@ export default function QuotesTab() {
         </CardHeader>
         <CardContent>
           <div className="min-h-[300px]">
-            {/* This would need a component for saved quotes */}
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Icon
-                icon="carbon:quotes"
-                className="size-12 mb-4 text-muted-foreground"
-              />
-              <p className="text-muted-foreground">
-                Your saved quotes will appear here
-              </p>
-              <Link
-                href="/quotes"
-                className={buttonVariants({
-                  variant: "outline",
-                  size: "sm",
-                  className: "mt-4",
-                })}
-              >
-                Browse Quotes
-              </Link>
-            </div>
+            <Suspense fallback={<SavedQuotesSkeleton />}>
+              <SavedQuotes />
+            </Suspense>
           </div>
         </CardContent>
       </Card>

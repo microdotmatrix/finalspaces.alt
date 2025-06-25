@@ -4,13 +4,25 @@ import { UserThumbnails } from "@/components/auth/user/thumbnails";
 import { AnimatedInput } from "@/components/elements/form/animated-input";
 import { FileUpload } from "@/components/media/uploads/file";
 import { useUploadThing } from "@/components/media/uploads/utils";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
-import type { ActionState } from "@/lib/api/actions";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import type { PlacidRequest } from "@/lib/api/placid";
 import { cn } from "@/lib/utils";
 import type { Upload } from "@/types/media";
+import type { UnifiedQuote } from "@/types/quotes";
+import type { ActionState } from "@/types/state";
 import { format } from "date-fns";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -19,19 +31,23 @@ export function CreateImage({
   action,
   userId,
   uploads,
+  quotes,
 }: {
   action: (formData: PlacidRequest, userId: string) => Promise<ActionState>;
   userId: string;
   uploads: Upload[];
+  quotes: UnifiedQuote[];
 }) {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [selectImage, setSelectImage] = useState(false);
   const [birthDate, setBirthDate] = useState<Date>();
   const [deathDate, setDeathDate] = useState<Date>();
   const [visibleUploads, setVisibleUploads] = useState(6);
+  const [openQuotes, setOpenQuotes] = useState(false);
   const [formData, setFormData] = useState<PlacidRequest>({
     name: "",
     epitaph: "",
+    citation: "",
     birth: birthDate ? format(birthDate, "MMMM d, yyyy") : "",
     death: deathDate ? format(deathDate, "MMMM d, yyyy") : "",
     portrait: "",
@@ -55,7 +71,9 @@ export function CreateImage({
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -85,15 +103,106 @@ export function CreateImage({
           label="Name"
           value={formData.name}
           onChange={handleChange}
+          placeholder="What was their name?"
           required
         />
 
+        <div className="relative">
+          <AnimatedInput
+            name="epitaph"
+            label="Epitaph"
+            type="textarea"
+            value={formData.epitaph}
+            onChange={handleChange}
+            placeholder="Is there a quote or phrase you'd like to remember them by?"
+            required
+          />
+          {quotes && quotes.length > 0 && (
+            <Dialog open={openQuotes} onOpenChange={setOpenQuotes}>
+              <div className="absolute right-2 bottom-2 z-10 flex items-center gap-2">
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    title="Choose from saved quotes"
+                  >
+                    <Icon icon="carbon:quotes" className="size-3" />
+                  </Button>
+                </DialogTrigger>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  title="Reset quote"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      epitaph: "",
+                      citation: "",
+                    }))
+                  }
+                >
+                  <Icon icon="carbon:reset" className="size-3" />
+                </Button>
+              </div>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="text-base flex items-center gap-2">
+                    <Icon icon="mdi:bookmark-outline" className="size-6" />
+                    Select a quote
+                  </DialogTitle>
+                </DialogHeader>
+                <ScrollArea className="h-[400px]">
+                  <div className="space-y-4">
+                    {quotes.map((quote, index) => (
+                      <div
+                        key={index}
+                        className="p-4 space-y-4 border rounded-md cursor-pointer hover:bg-card/75 shadow-lg hover:shadow-teal-500/10 transition-colors"
+                        onClick={() => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            epitaph: quote.quote,
+                            citation: quote.author,
+                          }));
+                          setOpenQuotes(false);
+                          toast.success("Quote selected");
+                        }}
+                      >
+                        <p className="text-sm italic">"{quote.quote}"</p>
+                        <p className="text-sm font-medium">{quote.author}</p>
+                      </div>
+                    ))}
+                    {quotes.length === 0 && (
+                      <div className="text-center py-8">
+                        <Icon
+                          icon="carbon:quotes"
+                          className="size-12 mb-4 text-muted-foreground mx-auto"
+                        />
+                        <p className="text-muted-foreground">
+                          No saved quotes found
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </ScrollArea>
+                <DialogFooter>
+                  <Link
+                    href="/quotes"
+                    className={buttonVariants({ variant: "default" })}
+                  >
+                    Search Quotes
+                  </Link>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
+
         <AnimatedInput
-          name="epitaph"
-          label="Epitaph"
-          value={formData.epitaph}
+          name="citation"
+          label="Citation"
+          value={formData.citation}
           onChange={handleChange}
-          required
+          placeholder="Who said it?"
         />
 
         <div className="flex items-center gap-4">
@@ -132,7 +241,7 @@ export function CreateImage({
         {uploads && uploads.length > 0 && (
           <div className="space-y-3">
             <span className="text-sm font-semibold">Previous uploads:</span>
-            <div className="columns-3 gap-1.5">
+            <div className={cn("grid grid-cols-3 gap-1.5")}>
               {[...uploads]
                 .sort(
                   (a, b) =>
@@ -205,6 +314,7 @@ export function CreateImage({
               setFormData({
                 name: "",
                 epitaph: "",
+                citation: "",
                 birth: "",
                 death: "",
                 portrait: "",

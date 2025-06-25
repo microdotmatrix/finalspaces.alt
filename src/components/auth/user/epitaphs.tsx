@@ -16,7 +16,7 @@ export async function UserEpitaphs() {
   const images = await getUserGeneratedImages(userId);
   return (
     <div className="flex flex-col gap-2 min-h-fit">
-      <ScrollArea className="flex-1 h-full max-h-[calc(100vh-180px)] 2xl:max-h-[calc(100vh-48px)] overflow-y-auto  rounded-md border">
+      <ScrollArea className="flex-1 h-full max-h-[calc(100vh-180px)] 2xl:max-h-[calc(100vh-200px)] overflow-y-auto  rounded-md border">
         {images.length === 0 && (
           <div className="flex flex-col items-center justify-center gap-2 flex-1 py-16 lg:py-24 px-8">
             <figure className="relative overflow-clip max-w-xl w-full aspect-square border border-border rounded-lg bg-gradient-to-b from-muted/25 to-white/50 dark:to-black/50">

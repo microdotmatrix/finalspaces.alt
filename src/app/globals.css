@@ -46,15 +46,6 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-2xl: var(--shadow-2xl);
-
   --text-xs: clamp(0.65rem, -0.02vi + 0.65rem, 0.64rem);
   --text-sm: clamp(0.78rem, 0.03vi + 0.78rem, 0.8rem);
   --text-base: clamp(0.94rem, 0.1vi + 0.92rem, 1rem);
@@ -111,24 +102,6 @@
   --font-serif: Merriweather, serif;
   --font-mono: JetBrains Mono, monospace;
   --radius: 0.3rem;
-  --shadow-2xs: 0px 2px 3px 0px hsl(28 18% 25% / 0.08);
-  --shadow-xs: 0px 2px 3px 0px hsl(28 18% 25% / 0.08);
-  --shadow-sm:
-    0px 2px 3px 0px hsl(28 18% 25% / 0.16),
-    0px 1px 2px -1px hsl(28 18% 25% / 0.16);
-  --shadow:
-    0px 2px 3px 0px hsl(28 18% 25% / 0.16),
-    0px 1px 2px -1px hsl(28 18% 25% / 0.16);
-  --shadow-md:
-    0px 2px 3px 0px hsl(28 18% 25% / 0.16),
-    0px 2px 4px -1px hsl(28 18% 25% / 0.16);
-  --shadow-lg:
-    0px 2px 3px 0px hsl(28 18% 25% / 0.16),
-    0px 4px 6px -1px hsl(28 18% 25% / 0.16);
-  --shadow-xl:
-    0px 2px 3px 0px hsl(28 18% 25% / 0.16),
-    0px 8px 10px -1px hsl(28 18% 25% / 0.16);
-  --shadow-2xl: 0px 2px 3px 0px hsl(28 18% 25% / 0.4);
 }
 
 .dark {
@@ -168,19 +141,6 @@
   --font-serif: Merriweather, serif;
   --font-mono: JetBrains Mono, monospace;
   --radius: 0.3rem;
-  --shadow-2xs: 0px 2px 3px 0px hsl(0 0% 5% / 0.08);
-  --shadow-xs: 0px 2px 3px 0px hsl(0 0% 5% / 0.08);
-  --shadow-sm:
-    0px 2px 3px 0px hsl(0 0% 5% / 0.16), 0px 1px 2px -1px hsl(0 0% 5% / 0.16);
-  --shadow:
-    0px 2px 3px 0px hsl(0 0% 5% / 0.16), 0px 1px 2px -1px hsl(0 0% 5% / 0.16);
-  --shadow-md:
-    0px 2px 3px 0px hsl(0 0% 5% / 0.16), 0px 2px 4px -1px hsl(0 0% 5% / 0.16);
-  --shadow-lg:
-    0px 2px 3px 0px hsl(0 0% 5% / 0.16), 0px 4px 6px -1px hsl(0 0% 5% / 0.16);
-  --shadow-xl:
-    0px 2px 3px 0px hsl(0 0% 5% / 0.16), 0px 8px 10px -1px hsl(0 0% 5% / 0.16);
-  --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 5% / 0.4);
 }
 
 @layer base {

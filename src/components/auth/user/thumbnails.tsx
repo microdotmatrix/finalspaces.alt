@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { deleteFile } from "@/lib/api/actions";
+import { deleteFile } from "@/lib/actions/uploads";
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

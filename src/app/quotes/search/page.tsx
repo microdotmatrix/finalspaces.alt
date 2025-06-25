@@ -3,6 +3,7 @@ import {
   QuoteSearchForm,
   QuoteSearchSkeleton,
 } from "@/components/quotes/search";
+import { QuoteCardSkeleton } from "@/components/quotes/skeleton";
 import {
   Pagination,
   PaginationContent,
@@ -13,6 +14,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { searchQuotes } from "@/lib/api/quotes";
+import { getUserSavedQuotes } from "@/lib/db/queries";
 import { Suspense } from "react";
 
 // Define the search page props
@@ -76,6 +78,9 @@ async function SearchResults({
   lengths?: string;
   page?: string;
 }) {
+  // Fetch all saved quotes for the current user
+  const { quotes, savedQuotesMap } = await getUserSavedQuotes();
+
   // Parse the lengths parameter
   const lengthsArray = lengths
     ? (lengths
@@ -127,7 +132,7 @@ async function SearchResults({
   }).toString()}`;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       <div className="flex flex-col justify-end items-end flex-wrap gap-0.5">
         <p className="text-lg font-semibold">
           Found {totalQuotes} quote{totalQuotes !== 1 ? "s" : ""}
@@ -143,9 +148,18 @@ async function SearchResults({
       </div>
 
       <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
-        {paginatedQuotes.map((quote, index) => (
-          <QuoteCard key={index} quote={quote} />
-        ))}
+        {paginatedQuotes.map((quote, index) => {
+          // Check if this quote is saved using our map
+          const isSaved = savedQuotesMap.has(`${quote.quote}|${quote.author}`);
+          return (
+            <QuoteCard
+              key={index}
+              quote={quote}
+              initialSavedState={isSaved}
+              savedQuotesMap={savedQuotesMap}
+            />
+          );
+        })}
       </div>
 
       {totalPages > 1 && (
@@ -199,7 +213,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   };
 
   return (
-    <main className="max-w-[calc(100vw-2rem)] py-8 mx-auto">
+    <main className="max-w-[calc(100vw-2rem)] py-8 mx-auto w-full">
       <div className="flex flex-col md:flex-row gap-4 px-4">
         {/* Sidebar with search form */}
         <div className="md:w-1/3 lg:w-1/4">
@@ -258,7 +272,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
           <Suspense
             fallback={
-              <div className="text-center py-12">Loading quotes...</div>
+              <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 mt-12 lg:mt-24">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <QuoteCardSkeleton key={index} />
+                ))}
+              </div>
             }
           >
             <SearchResults

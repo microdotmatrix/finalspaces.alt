@@ -1,6 +1,5 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -63,35 +62,21 @@ export function ImageResult({ initialImageData, id }: ImagePollerProps) {
     };
   }, [id, isPolling]);
 
-  if (error) {
+  if (error || imageData?.status === "error") {
     return (
-      <Alert variant="destructive">
+      <div className="grid items-center content-center mx-auto p-4 lg:p-8">
         <Icon icon="carbon:warning-alt" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>{error}</AlertDescription>
-      </Alert>
+        <p>{error || "Error generating image"}</p>
+      </div>
     );
   }
 
   if (imageData?.status === "queued") {
     return (
-      <Alert>
+      <div className="grid items-center content-center mx-auto p-4 lg:p-8">
         <Icon icon="mdi:loading" className="animate-spin" />
-        <AlertTitle>Image is processing</AlertTitle>
-        <AlertDescription>
-          {isPolling ? "..." : " (polling paused)"}
-        </AlertDescription>
-      </Alert>
-    );
-  }
-
-  if (imageData?.status === "error") {
-    return (
-      <Alert variant="destructive">
-        <Icon icon="carbon:warning-alt" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>Error generating image</AlertDescription>
-      </Alert>
+        <p>Image is processing</p>
+      </div>
     );
   }
 
@@ -110,23 +95,20 @@ export function ImageResult({ initialImageData, id }: ImagePollerProps) {
 
           <div className="absolute top-2 right-2 z-10 flex flex-col items-center justify-center gap-2">
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger className="bg-accent/80 hover:bg-accent text-accent-foreground rounded-md overflow-hidden shadow-lg transition-all">
                 <Button
                   asChild
                   size="icon"
-                  variant="outline"
+                  variant="ghost"
                   onClick={() =>
                     downloadImage(
                       imageData?.image_url,
                       `epitaph-${imageData?.id}`
                     )
                   }
-                  className="p-2.5 lg:p-2 bg-accent/80 rounded-sm border-accent"
+                  className="p-2.5 lg:p-2 rounded-sm transition-colors"
                 >
-                  <Icon
-                    icon="carbon:download"
-                    className="size-full text-muted-foreground"
-                  />
+                  <Icon icon="carbon:download" className="size-8" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="left">
@@ -134,21 +116,18 @@ export function ImageResult({ initialImageData, id }: ImagePollerProps) {
               </TooltipContent>
             </Tooltip>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger className="bg-accent/80 hover:bg-accent text-accent-foreground rounded-md overflow-hidden shadow-lg transition-all">
                 <Button
                   asChild
                   size="icon"
-                  variant="outline"
-                  className="p-2.5 lg:p-2 bg-accent/80 rounded-sm border-accent"
+                  variant="ghost"
+                  className="p-2.5 lg:p-2 rounded-sm transition-colors"
                   onClick={() => {
                     navigator.clipboard.writeText(imageData?.image_url);
                     toast("Image URL copied to clipboard");
                   }}
                 >
-                  <Icon
-                    icon="carbon:copy"
-                    className="size-full text-muted-foreground"
-                  />
+                  <Icon icon="carbon:copy" className="size-8" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="left">
