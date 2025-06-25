@@ -47,7 +47,7 @@ export default async function Create({
 
   return (
     <main className="flex flex-col lg:flex-row items-center lg:items-start relative">
-      <aside className="flex-none lg:flex-1/3 sticky lg:top-48 mt-12 lg:mt-16 order-2 lg:order-1">
+      <aside className="flex-none lg:flex-1/3 sticky lg:top-32 mt-12 order-2 lg:order-1">
         <CreateImage
           action={createEpitaphs}
           userId={userId}
@@ -58,7 +58,7 @@ export default async function Create({
       <article className="flex-1 lg:flex-2/3 px-4 order-1 lg:order-2 flex">
         <Suspense fallback={<div>Loading...</div>}>
           {imageIds.length > 0 ? (
-            <div className=" grid grid-cols-1 md:grid-cols-1 gap-2">
+            <div className=" grid grid-cols-1 gap-2 mx-auto">
               {images &&
                 images.map((image) => (
                   <ImageResult

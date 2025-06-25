@@ -64,26 +64,26 @@ export function ImageResult({ initialImageData, id }: ImagePollerProps) {
 
   if (error || imageData?.status === "error") {
     return (
-      <div className="grid items-center content-center mx-auto p-4 lg:p-8">
-        <Icon icon="carbon:warning-alt" />
-        <p>{error || "Error generating image"}</p>
+      <div className="grid place-content-center p-4 lg:p-8 aspect-square w-full">
+        <Icon icon="carbon:warning-alt" className="mx-auto size-12" />
+        <p className="text-center">{error || "Error generating image"}</p>
       </div>
     );
   }
 
   if (imageData?.status === "queued") {
     return (
-      <div className="grid items-center content-center mx-auto p-4 lg:p-8">
-        <Icon icon="mdi:loading" className="animate-spin" />
-        <p>Image is processing</p>
+      <div className="grid place-content-center p-4 lg:p-8 aspect-square w-full">
+        <Icon icon="mdi:loading" className="animate-spin mx-auto size-12" />
+        <p className="text-center">Image is processing</p>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto">
+    <div className="w-full">
       {imageData?.image_url ? (
-        <div className="border rounded-md overflow-hidden relative">
+        <figure className="border rounded-md overflow-hidden relative aspect-square size-full">
           <Image
             src={imageData.image_url}
             alt="Generated Epitaph"
@@ -135,9 +135,12 @@ export function ImageResult({ initialImageData, id }: ImagePollerProps) {
               </TooltipContent>
             </Tooltip>
           </div>
-        </div>
+        </figure>
       ) : (
-        <div className="p-4 bg-gray-100">Image URL not available</div>
+        <div className="grid place-content-center mx-auto p-4 lg:p-8 aspect-square w-full">
+          <Icon icon="tabler:alert-triangle" className="size-8 text-red-700" />
+          <p>Image not available</p>
+        </div>
       )}
     </div>
   );
