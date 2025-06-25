@@ -75,10 +75,7 @@ export default async function DashboardLayout({
           </TabsList>
 
           {/* Tab content will be rendered here via parallel routes */}
-          <Suspense fallback={<div>Loading...</div>}>
-            {children}
-            {tabs}
-          </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         </Tabs>
 
         {/* Recent Activity */}

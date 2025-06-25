@@ -1,4 +1,6 @@
 import { AppContext } from "@/components/context";
+import { ScrollUp } from "@/components/elements/scroll-up";
+import { ViewportSize } from "@/components/elements/viewport-size";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { body, display, heading, mono } from "@/lib/fonts";
@@ -42,6 +44,10 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <ScrollUp />
+          {process.env.NODE_ENV === "development" && (
+            <ViewportSize align="right" />
+          )}
         </AppContext>
       </body>
     </html>

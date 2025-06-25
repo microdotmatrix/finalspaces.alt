@@ -1,6 +1,7 @@
 import { UserEpitaphs } from "@/components/auth/user/epitaphs";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { getSession } from "@/lib/auth/server";
 import { getUserGeneratedImages } from "@/lib/db/queries";
 import Link from "next/link";
@@ -20,9 +21,9 @@ export default async function EpitaphsTab() {
           </CardHeader>
           <CardContent>
             <Suspense fallback={<div>Loading epitaphs...</div>}>
-              <div className="min-h-[640px]">
+              <ScrollArea className="h-full max-h-[48rem] overflow-y-auto rounded-md border">
                 <UserEpitaphs />
-              </div>
+              </ScrollArea>
             </Suspense>
           </CardContent>
         </Card>

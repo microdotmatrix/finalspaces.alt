@@ -2,6 +2,7 @@ import { UserEpitaphs } from "@/components/auth/user/epitaphs";
 import { UserUploads } from "@/components/auth/user/uploads";
 import { buttonVariants } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { getSession } from "@/lib/auth/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +31,9 @@ export default async function Memorials() {
               </Link>
             </div>
             <div className="flex-2 w-full min-h-[calc(80vh-280px)] flex flex-col justify-center">
-              <UserEpitaphs />
+              <ScrollArea className="h-full max-h-[calc(100vh-280px)] overflow-y-auto rounded-md border">
+                <UserEpitaphs />
+              </ScrollArea>
             </div>
           </section>
           <section className="py-12 max-w-3xl mx-auto">
