@@ -86,12 +86,13 @@ export function CreateImage({
         return;
       }
       const result = await action(formData, userId);
-      console.log(result);
       if (result.error) {
         setError(result.error);
         return;
       }
-      router.push(`/memorials/create?id=${result.result}`);
+      startTransition(() => {
+        router.push(`/memorials/create?id=${result.result}`);
+      });
     });
   };
 

@@ -145,3 +145,25 @@ export function ImageResult({ initialImageData, id }: ImagePollerProps) {
     </div>
   );
 }
+
+const ImageContainer = ({ image }: { image: PlacidImage }) => {
+  return (
+    <figure className="border rounded-md overflow-hidden relative aspect-square size-full">
+      <Image
+        src={image?.image_url}
+        alt="Generated epitaph"
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className="object-cover size-full"
+      />
+    </figure>
+  );
+};
+
+const ImageActions = ({ image }: { image: PlacidImage }) => {
+  return (
+    <div className="flex flex-col items-center justify-center gap-2">
+      
+    </div>
+  )
+}

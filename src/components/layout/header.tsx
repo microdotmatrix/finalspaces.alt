@@ -41,6 +41,14 @@ export const Header = () => {
           >
             <Icon icon="carbon:quotes" className="size-9" />
           </Link>
+          <Link
+            href="/obituaries"
+            className={cn(
+              pathname.startsWith("/obituaries") ? "text-primary" : ""
+            )}
+          >
+            <Icon icon="carbon:new-tab" className="size-9" />
+          </Link>
         </nav>
         <div className="flex items-center gap-2 ml-2 lg:ml-4">
           <div className="pl-2">

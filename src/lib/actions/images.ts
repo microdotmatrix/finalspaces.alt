@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { userGeneratedImage } from "@/lib/db/schema";
 import type { ActionState } from "@/types/state";
+import { eq } from "drizzle-orm";
 import {
   fetchTemplates,
   generateImage,
@@ -73,5 +74,15 @@ export async function createEpitaphs(
   } catch (error) {
     console.error("Error creating epitaphs:", error);
     return { error: "Failed to create epitaphs" };
+  }
+}
+
+export async function deleteImage(id: string) {
+  try {
+    await db.delete(userGeneratedImage).where(eq(userGeneratedImage.id, id));
+    return { result: "Image deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    return { error: "Failed to delete image" };
   }
 }

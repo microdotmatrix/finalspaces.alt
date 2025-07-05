@@ -18,6 +18,7 @@ interface AnimatedInputProps {
   type?: "text" | "textarea" | "url" | "email" | "number";
   required?: boolean;
   placeholder?: string;
+  className?: string;
 }
 
 export function AnimatedInput({
@@ -28,6 +29,7 @@ export function AnimatedInput({
   onChange,
   type = "text",
   required = false,
+  className = "",
 }: AnimatedInputProps) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -72,7 +74,7 @@ export function AnimatedInput({
           onChange={onChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className={cn(inputClasses, "h-32")}
+          className={cn(inputClasses, className ? className : "h-32")}
           required={required}
           placeholder={placeholder}
         />
@@ -85,7 +87,7 @@ export function AnimatedInput({
           onChange={onChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className={cn(inputClasses, "h-10")}
+          className={cn(inputClasses, className ? className : "h-10")}
           required={required}
           placeholder={placeholder}
         />

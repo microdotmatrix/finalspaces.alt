@@ -5,7 +5,15 @@ import { redirect } from "next/navigation";
 import { cache } from "react";
 import { auth } from "../auth";
 import { db } from "./index";
-import { savedQuotes, userGeneratedImage, userUpload } from "./schema";
+import {
+  obituaries,
+  obituariesDraft,
+  Obituary,
+  ObituaryDraft,
+  savedQuotes,
+  userGeneratedImage,
+  userUpload,
+} from "./schema";
 /**
  * Fetches user uploads from the database
  * @returns Array of user uploads or null if user is not authenticated
@@ -112,7 +120,10 @@ export const getUserGeneratedEpitaphIdsOrRedirect = cache(
  * Get all saved quotes for the current user
  * Returns an array of quote identifiers (quote text and author)
  */
-export const getUserSavedQuotes = cache(async () => {
+export const getUserSavedQuotes: () => Promise<{
+  quotes: UnifiedQuote[];
+  savedQuotesMap: Map<string, boolean>;
+}> = cache(async () => {
   // Get the current session
   const session = await auth.api.getSession({ headers: await headers() });
 
@@ -148,3 +159,47 @@ export const getUserSavedQuotes = cache(async () => {
     return { quotes: [], savedQuotesMap: new Map() };
   }
 });
+
+export const getUserObituaries: () => Promise<Obituary[]> = cache(async () => {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session || !session.user) {
+    return [];
+  }
+
+  try {
+    const userId = session.user.id;
+
+    const result = await db.query.obituaries.findMany({
+      where: eq(obituaries.userId, userId),
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching obituaries:", error);
+    return [];
+  }
+});
+
+export const getUserObituariesDraft: () => Promise<ObituaryDraft[]> = cache(
+  async () => {
+    const session = await auth.api.getSession({ headers: await headers() });
+
+    if (!session || !session.user) {
+      return [];
+    }
+
+    try {
+      const userId = session.user.id;
+
+      const result = await db.query.obituariesDraft.findMany({
+        where: eq(obituariesDraft.userId, userId),
+      });
+
+      return result;
+    } catch (error) {
+      console.error("Error fetching obituaries:", error);
+      return [];
+    }
+  }
+);

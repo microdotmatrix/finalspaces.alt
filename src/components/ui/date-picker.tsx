@@ -18,11 +18,13 @@ export function DatePicker({
   setDate,
   width = "w-full",
   label,
+  layout = "dropdown",
 }: {
   date?: Date;
   setDate: (date: Date) => void;
   width?: string;
   label?: string;
+  layout?: "label" | "dropdown" | "dropdown-months" | "dropdown-years";
 }) {
   return (
     <Popover>
@@ -42,6 +44,7 @@ export function DatePicker({
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
+          captionLayout={layout}
           selected={date}
           onSelect={setDate}
           autoFocus

@@ -5,6 +5,7 @@ import { getUserGeneratedImages } from "@/lib/db/queries";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import { EpitaphThumbnail } from "./epitaph-thumbnail";
 
 export async function UserEpitaphs() {
   const { session } = await getSession();
@@ -41,7 +42,7 @@ export async function UserEpitaphs() {
                   <div className="size-full aspect-square bg-muted animate-pulse" />
                 }
               >
-                <EpitaphThumbnail epitaphId={image.epitaphId} />
+                <Epitaph epitaphId={image.epitaphId} />
               </Suspense>
             </li>
           ))}
@@ -51,17 +52,7 @@ export async function UserEpitaphs() {
   );
 }
 
-async function EpitaphThumbnail({ epitaphId }: { epitaphId: number }) {
+async function Epitaph({ epitaphId }: { epitaphId: number }) {
   const image = await fetchImage(epitaphId);
-  return (
-    <figure className="relative overflow-hidden aspect-square">
-      <Image
-        src={image.image_url}
-        alt={image.id.toString()}
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="object-cover size-full"
-      />
-    </figure>
-  );
+  return <EpitaphThumbnail image={image} />;
 }
