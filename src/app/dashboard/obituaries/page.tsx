@@ -7,7 +7,7 @@ import { getUserObituaries, getUserObituariesDraft } from "@/lib/db/queries";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 
-export const experimental_ppr = true;
+export const experimental_ppr = false;
 
 export default async function ObituariesDashboard() {
   const [obituaries, drafts] = await Promise.all([

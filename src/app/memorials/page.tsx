@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
-export const experimental_ppr = true;
+export const experimental_ppr = false;
 
 export default async function Memorials() {
   const { session } = await getSession();

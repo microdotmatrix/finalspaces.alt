@@ -3,7 +3,7 @@ import { getSession } from "@/lib/auth/server";
 import { getUserObituariesDraft } from "@/lib/db/queries";
 import { Suspense } from "react";
 
-export const experimental_ppr = true;
+export const experimental_ppr = false;
 
 export default async function ObituaryPage() {
   const { session } = await getSession();
@@ -14,9 +14,7 @@ export default async function ObituaryPage() {
     <main className="flex flex-col justify-center px-2 lg:px-4 py-8">
       <Suspense fallback={<div>Loading...</div>}>
         {session?.user ? (
-          <ObituaryGeneratorForm
-            obituariesDraft={obituariesDraft}
-          />
+          <ObituaryGeneratorForm obituariesDraft={obituariesDraft} />
         ) : (
           <div className="text-center">
             <p className="text-muted-foreground">

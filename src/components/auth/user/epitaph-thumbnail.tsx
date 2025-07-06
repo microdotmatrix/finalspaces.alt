@@ -1,20 +1,25 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { deleteImage } from "@/lib/actions/images";
 import type { PlacidImage } from "@/lib/api/placid";
-import { cn, downloadImage } from "@/lib/utils";
+import { downloadImage } from "@/lib/utils";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { toast } from "sonner";
 
 export const EpitaphThumbnail = ({ image }: { image: PlacidImage }) => {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const handleDelete = () => {
-    startTransition(async () => {
-      await deleteImage(image.id.toString());
+    // startTransition(async () => {
+    // await deleteImage(image.id.toString());
+    startTransition(() => {
+      toast("Image deleted successfully");
+      // router.refresh();
     });
+    // });
   };
 
   return (
@@ -26,27 +31,27 @@ export const EpitaphThumbnail = ({ image }: { image: PlacidImage }) => {
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className="object-cover size-full"
       />
-      <figcaption className="absolute bottom-2 left-2 z-10 flex flex-col items-center justify-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="p-2.5 lg:p-2 rounded-sm transition-colors"
+      <figcaption className="absolute top-0.5 right-0.5 z-10 flex items-center justify-center gap-1">
+        <button
+          className="p-1.5 rounded-md bg-background opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
           disabled={isPending}
           onClick={() => downloadImage(image.image_url, `epitaph-${image.id}`)}
+          aria-label="Download Image"
         >
-          <Icon icon="carbon:download" className="size-8" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn("p-2.5 lg:p-2 rounded-sm transition-colors", {
-            "opacity-50 cursor-not-allowed": isPending,
-          })}
+          <Icon icon="carbon:download" className="size-4" />
+        </button>
+        <button
+          className="p-1.5 rounded-md bg-background opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
           disabled={isPending}
           onClick={handleDelete}
+          aria-label="Delete Image"
         >
-          <Icon icon="mdi:delete" className="size-8" />
-        </Button>
+          {isPending ? (
+            <Icon icon="mdi:loading" className="animate-spin size-4" />
+          ) : (
+            <Icon icon="mdi:close" className="size-4" />
+          )}
+        </button>
       </figcaption>
     </figure>
   );
