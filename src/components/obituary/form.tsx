@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useScrollIntoView } from "@/hooks/use-scroll-into-view";
 import {
   generateObituaries,
   saveObituaryFormDraft,
@@ -58,9 +59,9 @@ export function ObituaryGeneratorForm({
     null
   );
   const [isPending, startTransition] = useTransition();
-  const [isPendingSave, startTransitionSave] = useTransition();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [containerRef, endRef] = useScrollIntoView();
 
   // Form state for controlled inputs
   const [formData, setFormData] = useState({
@@ -692,7 +693,8 @@ export function ObituaryGeneratorForm({
         </Card>
       </section>
 
-      <section className="flex-3 flex flex-col gap-4 px-4">
+      <section className="flex-3 flex flex-col gap-4 px-4" ref={containerRef}>
+        {completed && <div ref={endRef} />}
         {!completed && isPending ? (
           <Typewriter
             text={`> Generating an obituary for ${formData.fullName}...`}

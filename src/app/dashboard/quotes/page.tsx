@@ -16,7 +16,7 @@ function SavedQuotesSkeleton() {
 
 export default function QuotesTab() {
   return (
-    <div className="space-y-4">
+    <main className="space-y-4">
       <Card>
         <CardHeader>
           <CardTitle>Saved Quotes</CardTitle>
@@ -29,6 +29,6 @@ export default function QuotesTab() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </main>
   );
 }

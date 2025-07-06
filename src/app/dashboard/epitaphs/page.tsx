@@ -13,7 +13,7 @@ export default async function EpitaphsTab() {
   const images = await getUserGeneratedImages(userId);
 
   return (
-    <div className="space-y-4">
+    <main className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="col-span-1 md:col-span-2">
           <CardHeader>
@@ -60,6 +60,6 @@ export default async function EpitaphsTab() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </main>
   );
 }

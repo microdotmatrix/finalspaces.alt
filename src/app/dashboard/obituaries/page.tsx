@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { Separator } from "@/components/ui/separator";
@@ -24,9 +24,9 @@ export default async function ObituariesDashboard() {
   ]);
 
   return (
-    <div className="container mx-auto py-8 px-4 space-y-8">
+    <main className="container mx-auto py-8 px-4 space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col lg:flex-row items-center justify-between">
         <div>
           <h3 className="flex items-center gap-4 font-bold tracking-tight">
             My Obituaries
@@ -89,27 +89,51 @@ export default async function ObituariesDashboard() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="default" asChild>
-                      <Link href={`/obituaries/${obituary.id}`}>
-                        <Icon icon="lucide:eye" className="h-4 w-4 mr-1" />
-                        Read
-                      </Link>
-                    </Button>
-                    <Button size="sm" variant="outline" asChild>
-                      <Link href={`/obituaries/${obituary.id}/edit`}>
-                        <Icon icon="lucide:edit" className="h-4 w-4 mr-1" />
-                        Edit
-                      </Link>
-                    </Button>
-                    <Button size="sm" variant="outline" asChild>
-                      <Link href={`/obituaries/${obituary.id}/share`}>
-                        <Icon icon="lucide:share" className="h-4 w-4 mr-1" />
-                        Share
-                      </Link>
-                    </Button>
+                  <div className="flex flex-wrap gap-1">
+                    <Link
+                      href={`/obituaries/${obituary.id}`}
+                      className={buttonVariants({
+                        variant: "default",
+                        size: "sm",
+                      })}
+                    >
+                      <Icon
+                        icon="lucide:eye"
+                        className="size-3 md:size-4 mr-1"
+                      />
+                      Read
+                    </Link>
+                    <Link
+                      href={`/obituaries/${obituary.id}/edit`}
+                      className={buttonVariants({
+                        variant: "outline",
+                        size: "sm",
+                      })}
+                    >
+                      <Icon
+                        icon="lucide:edit"
+                        className="size-3 md:size-4 mr-1"
+                      />
+                      Edit
+                    </Link>
+                    <Link
+                      href={`/obituaries/${obituary.id}/share`}
+                      className={buttonVariants({
+                        variant: "outline",
+                        size: "sm",
+                      })}
+                    >
+                      <Icon
+                        icon="lucide:share"
+                        className="size-3 md:size-4 mr-1"
+                      />
+                      Share
+                    </Link>
                     <Button size="sm" variant="destructive">
-                      <Icon icon="lucide:trash" className="h-4 w-4 mr-1" />
+                      <Icon
+                        icon="lucide:trash"
+                        className="size-3 md:size-4 mr-1"
+                      />
                       Delete
                     </Button>
                   </div>
@@ -182,6 +206,6 @@ export default async function ObituariesDashboard() {
           </div>
         )}
       </section>
-    </div>
+    </main>
   );
 }

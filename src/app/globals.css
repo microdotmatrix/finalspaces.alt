@@ -163,7 +163,7 @@
     overflow-x: hidden;
   }
   body {
-    @apply bg-background text-foreground font-body w-full min-h-dvh flex flex-col;
+    @apply bg-background text-foreground font-body max-w-screen min-h-dvh flex flex-col;
   }
   h1,
   h2,
@@ -191,7 +191,7 @@
   h6 {
     @apply text-base;
   }
-  a[href*="https"] {
+  a[href*="http"] {
     @apply underline underline-offset-1 hover:underline-offset-2 hover:text-secondary transition-all;
   }
   button:not(:disabled),

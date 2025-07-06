@@ -13,7 +13,7 @@ export default async function UploadsTab() {
   const uploads = await getUserUploads(userId);
 
   return (
-    <div className="space-y-4">
+    <main className="space-y-4">
       <Card>
         <CardHeader>
           <CardTitle>Your Uploads</CardTitle>
@@ -48,6 +48,6 @@ export default async function UploadsTab() {
           </Suspense>
         </CardContent>
       </Card>
-    </div>
+    </main>
   );
 }
