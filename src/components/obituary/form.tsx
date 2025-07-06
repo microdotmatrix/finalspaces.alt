@@ -10,9 +10,9 @@ import {
 } from "@/lib/actions/ai/generate";
 import { ObituaryDraft } from "@/lib/db/schema";
 import { readStreamableValue } from "ai/rsc";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { toast } from "sonner"; // Assuming sonner for toasts
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
+import { toast } from "sonner";
 import { AnimatedDatePicker } from "../elements/form/animated-date";
 import { AnimatedInput } from "../elements/form/animated-input";
 import { Typewriter } from "../elements/typewriter";
@@ -58,7 +58,9 @@ export function ObituaryGeneratorForm({
     null
   );
   const [isPending, startTransition] = useTransition();
+  const [isPendingSave, startTransitionSave] = useTransition();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Form state for controlled inputs
   const [formData, setFormData] = useState({
@@ -116,6 +118,89 @@ export function ObituaryGeneratorForm({
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  // Auto-select draft based on URL searchParams
+  useEffect(() => {
+    const draftIdFromUrl = searchParams.get("draftId");
+    if (draftIdFromUrl && obituariesDraft.length > 0) {
+      const draftExists = obituariesDraft.find(
+        (draft) => draft.id === draftIdFromUrl
+      );
+      if (draftExists && selectSavedObituary !== draftIdFromUrl) {
+        // Directly populate form without calling handleDraftSelection to avoid URL update loop
+        const selectedDraft = draftExists;
+        if (selectedDraft?.inputData) {
+          const inputData = selectedDraft.inputData;
+
+          // Convert family members from string format to FamilyMember array if needed
+          const parseSurvivedBy = (): FamilyMember[] => {
+            if (
+              inputData.survivedBy &&
+              typeof inputData.survivedBy === "string"
+            ) {
+              try {
+                const parsed = JSON.parse(inputData.survivedBy);
+                return Array.isArray(parsed) ? parsed : [];
+              } catch {
+                return [];
+              }
+            }
+            return (
+              inputData.familyMembers?.filter((member) =>
+                member.relationship.toLowerCase().includes("survivedBy")
+              ) || []
+            );
+          };
+
+          const parsePredeceasedBy = (): FamilyMember[] => {
+            if (
+              inputData.predeceasedBy &&
+              typeof inputData.predeceasedBy === "string"
+            ) {
+              try {
+                const parsed = JSON.parse(inputData.predeceasedBy);
+                return Array.isArray(parsed) ? parsed : [];
+              } catch {
+                return [];
+              }
+            }
+            return (
+              inputData.familyMembers?.filter((member) =>
+                member.relationship.toLowerCase().includes("predeceasedBy")
+              ) || []
+            );
+          };
+
+          setFormData({
+            fullName: inputData.fullName || "",
+            birthDate: inputData.birthDate
+              ? new Date(inputData.birthDate)
+              : undefined,
+            deathDate: inputData.deathDate
+              ? new Date(inputData.deathDate)
+              : undefined,
+            biographySummary: inputData.biographySummary || "",
+            accomplishments:
+              inputData.accomplishments || inputData.achievements || "",
+            hobbiesInterests:
+              inputData.hobbiesInterests || inputData.hobbies || "",
+            survivedBy: parseSurvivedBy(),
+            predeceasedBy: parsePredeceasedBy(),
+            serviceDetails: inputData.serviceDetails || "",
+            tone: inputData.tone || "",
+          });
+          setSelectSavedObituary(draftIdFromUrl);
+          toast.success(`Loaded draft for ${inputData.fullName}`);
+        }
+      }
+    } else if (!draftIdFromUrl && selectSavedObituary) {
+      // Clear selection if no draftId in URL
+      setSelectSavedObituary(null);
+    }
+    return () => {
+      setSelectSavedObituary(null);
+    };
+  }, [searchParams, obituariesDraft]);
+
   const resetForm = (e: React.FormEvent) => {
     e.preventDefault();
     setFormData({
@@ -131,6 +216,8 @@ export function ObituaryGeneratorForm({
       tone: "",
     });
     setSelectSavedObituary(null);
+    // Clear URL searchParams when resetting
+    router.replace("/obituaries");
   };
 
   // Function to populate form with selected draft data
@@ -174,27 +261,29 @@ export function ObituaryGeneratorForm({
           ) || []
         );
       };
-
-      setFormData({
-        fullName: inputData.fullName || "",
-        birthDate: inputData.birthDate
-          ? new Date(inputData.birthDate)
-          : undefined,
-        deathDate: inputData.deathDate
-          ? new Date(inputData.deathDate)
-          : undefined,
-        biographySummary: inputData.biographySummary || "",
-        accomplishments:
-          inputData.accomplishments || inputData.achievements || "",
-        hobbiesInterests: inputData.hobbiesInterests || inputData.hobbies || "",
-        survivedBy: parseSurvivedBy(),
-        predeceasedBy: parsePredeceasedBy(),
-        serviceDetails: inputData.serviceDetails || "",
-        tone: inputData.tone || "",
+      startTransition(() => {
+        setFormData({
+          fullName: inputData.fullName || "",
+          birthDate: inputData.birthDate
+            ? new Date(inputData.birthDate)
+            : undefined,
+          deathDate: inputData.deathDate
+            ? new Date(inputData.deathDate)
+            : undefined,
+          biographySummary: inputData.biographySummary || "",
+          accomplishments:
+            inputData.accomplishments || inputData.achievements || "",
+          hobbiesInterests:
+            inputData.hobbiesInterests || inputData.hobbies || "",
+          survivedBy: parseSurvivedBy(),
+          predeceasedBy: parsePredeceasedBy(),
+          serviceDetails: inputData.serviceDetails || "",
+          tone: inputData.tone || "",
+        });
+        setSelectSavedObituary(draftId);
+        toast.success(`Loaded draft for ${inputData.fullName}`);
+        router.replace(`/obituaries?draftId=${draftId}`);
       });
-
-      setSelectSavedObituary(draftId);
-      toast.success(`Loaded draft for ${inputData.fullName}`);
     }
   };
 
@@ -252,7 +341,10 @@ export function ObituaryGeneratorForm({
 
         // Add survivedBy and predeceasedBy data to FormData as JSON strings
         formDataParam.append("survivedBy", JSON.stringify(formData.survivedBy));
-        formDataParam.append("predeceasedBy", JSON.stringify(formData.predeceasedBy));
+        formDataParam.append(
+          "predeceasedBy",
+          JSON.stringify(formData.predeceasedBy)
+        );
 
         const result = await saveObituaryFormDraft(formDataParam);
 
@@ -266,7 +358,7 @@ export function ObituaryGeneratorForm({
               ? "Obituary draft updated successfully!"
               : "Obituary draft saved successfully!"
           );
-          router.refresh();
+          router.replace(`/obituaries?draftId=${result.draftId}`);
         } else {
           toast.error(result.error || "Failed to save obituary draft");
         }
@@ -294,7 +386,7 @@ export function ObituaryGeneratorForm({
                 </div>
                 <div>
                   <Select
-                    value={selectSavedObituary || ""}
+                    value={searchParams.get("draftId") || ""}
                     onValueChange={handleDraftSelection}
                   >
                     <SelectTrigger>

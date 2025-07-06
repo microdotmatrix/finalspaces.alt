@@ -149,7 +149,11 @@ async function createObituaryDraft(userId: string, formData: FormData) {
   return result;
 }
 
-async function updateObituaryDraft(draftId: string, userId: string, formData: FormData) {
+async function updateObituaryDraft(
+  draftId: string,
+  userId: string,
+  formData: FormData
+) {
   const inputData: ObituaryInput = {
     fullName: formData.get("fullName") as string,
     birthDate: formData.get("birthDate") as string,
@@ -390,7 +394,7 @@ export async function generateObituariesAlt(
 ): Promise<ActionState> {
   try {
     const { user } = await getSession();
-    const entry = await createObituaryRecord(user.id, formData);
+    const entry = await createObituaryRecord(user?.id!, formData);
 
     const claudeStream = createStreamableValue("");
     const openaiStream = createStreamableValue("");
@@ -427,9 +431,9 @@ export async function saveObituaryFormDraft(formData: FormData) {
         error: "Must be logged in to save a draft.",
       };
     }
-    
+
     const draftId = formData.get("draftId") as string;
-    
+
     if (draftId) {
       // Update existing draft
       const result = await updateObituaryDraft(draftId, user.id, formData);

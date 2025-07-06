@@ -5,7 +5,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getSession } from "@/lib/auth/server";
 import { getUserGeneratedImages, getUserUploads } from "@/lib/db/queries";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export const experimental_ppr = true;
@@ -17,13 +16,9 @@ export default async function DashboardLayout({
 }) {
   const { session } = await getSession();
 
-  if (!session?.user) {
-    redirect("/auth/login?redirect=/dashboard");
-  }
-
-  const userId = session.user.id;
-  const images = await getUserGeneratedImages(userId);
-  const userUploads = await getUserUploads(userId);
+  const userId = session?.user.id;
+  const images = await getUserGeneratedImages(userId!);
+  const userUploads = await getUserUploads(userId!);
 
   return (
     <main className="px-4 py-12 mx-auto container">
@@ -33,7 +28,7 @@ export default async function DashboardLayout({
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
             <p className="text-muted-foreground">
-              Welcome back, {session.user.name}
+              Welcome back, {session?.user.name}
             </p>
           </div>
           <div className="gap-2 items-center hidden lg:flex">
@@ -59,8 +54,11 @@ export default async function DashboardLayout({
         </header>
 
         {/* Dashboard Tabs Navigation */}
-        <Tabs defaultValue="epitaphs" className="w-full">
-          <TabsList className="grid grid-cols-3 w-full lg:max-w-[640px] mb-8">
+        <Tabs defaultValue="obituaries" className="w-full">
+          <TabsList className="grid grid-cols-4 w-full lg:max-w-[800px] mb-8">
+            <TabsTrigger value="obituaries" asChild>
+              <Link href="/dashboard/obituaries">Obituaries</Link>
+            </TabsTrigger>
             <TabsTrigger value="epitaphs" asChild>
               <Link href="/dashboard/epitaphs">Epitaphs</Link>
             </TabsTrigger>
