@@ -25,7 +25,10 @@ export const Header = () => {
               pathname.startsWith("/dashboard") ? "text-primary" : ""
             )}
           >
-            <Icon icon="mdi:view-dashboard-outline" className="size-9" />
+            <Icon
+              icon="mdi:view-dashboard-outline"
+              className="size-6 md:size-8 lg:size-9"
+            />
           </Link>
           <Link
             href="/memorials"
@@ -33,13 +36,16 @@ export const Header = () => {
               pathname.startsWith("/memorials") ? "text-primary" : ""
             )}
           >
-            <Icon icon="mdi:image-plus-outline" className="size-9" />
+            <Icon
+              icon="mdi:image-plus-outline"
+              className="size-6 md:size-8 lg:size-9"
+            />
           </Link>
           <Link
             href="/quotes"
             className={cn(pathname.startsWith("/quotes") ? "text-primary" : "")}
           >
-            <Icon icon="carbon:quotes" className="size-9" />
+            <Icon icon="carbon:quotes" className="size-6 md:size-8 lg:size-9" />
           </Link>
           <Link
             href="/obituaries"
@@ -47,7 +53,10 @@ export const Header = () => {
               pathname.startsWith("/obituaries") ? "text-primary" : ""
             )}
           >
-            <Icon icon="carbon:new-tab" className="size-9" />
+            <Icon
+              icon="carbon:new-tab"
+              className="size-6 md:size-8 lg:size-9"
+            />
           </Link>
         </nav>
         <div className="flex items-center gap-2 ml-2 lg:ml-4">

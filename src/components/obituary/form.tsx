@@ -371,7 +371,7 @@ export function ObituaryGeneratorForm({
 
   return (
     <div className="flex flex-col lg:flex-row items-stretch gap-4 relative">
-      <section className="flex-2 sticky top-0 mt-4">
+      <section className="flex-2 lg:sticky lg:top-0 mt-4">
         <Card>
           <CardHeader>
             <CardTitle>Obituary Details</CardTitle>
