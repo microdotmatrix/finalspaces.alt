@@ -73,7 +73,7 @@ export default async function Create({
               <div className="flex flex-col lg:flex-row items-center gap-4 pt-12 lg:pt-24 relative top-0 lg:top-full">
                 <Icon
                   icon="line-md:arrow-left"
-                  className="size-8 hidden lg:block"
+                  className="size-8 hidden lg:block mt-0.5"
                 />
                 <h6 className="text-center text-foreground/75">
                   <span className="starting:opacity-0 opacity-100 transition-all duration-1000 delay-1500">
