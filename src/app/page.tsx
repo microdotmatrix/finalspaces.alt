@@ -3,6 +3,8 @@ import { MemorialSection } from "@/components/sections/memorial";
 import { ObituarySection } from "@/components/sections/obituary";
 import { QuotesSection } from "@/components/sections/quotes";
 
+export const experimental_ppr = true;
+
 export default function Home() {
   return (
     <main className="min-h-screen">

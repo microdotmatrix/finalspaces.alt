@@ -12,15 +12,13 @@ export const experimental_ppr = true;
 
 export default async function DashboardLayout({
   children,
-  tabs,
 }: {
   children: React.ReactNode;
-  tabs: React.ReactNode;
 }) {
   const { session } = await getSession();
 
-  if (!session) {
-    redirect("/auth/login");
+  if (!session?.user) {
+    redirect("/auth/login?redirect=/dashboard");
   }
 
   const userId = session.user.id;

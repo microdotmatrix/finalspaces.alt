@@ -1,6 +1,8 @@
 import { PageHeading } from "@/components/elements/page-heading";
 import { ReturnHome } from "@/components/elements/return-home";
 
+export const experimental_ppr = true;
+
 export default function Privacy() {
   return (
     <main className="min-h-screen">

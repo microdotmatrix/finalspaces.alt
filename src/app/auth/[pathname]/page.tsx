@@ -1,6 +1,5 @@
-import { auth } from "@/lib/auth";
+import { getSession } from "@/lib/auth/server";
 import { authViewPaths } from "@daveyplate/better-auth-ui/server";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AuthView } from "./view";
 
@@ -16,8 +15,8 @@ export default async function AuthPage({
   const { pathname } = await params;
 
   if (pathname === "settings") {
-    const sessionData = await auth.api.getSession({ headers: await headers() });
-    if (!sessionData) redirect("/auth/login?redirectTo=/auth/settings");
+    const { session } = await getSession();
+    if (!session?.user) redirect("/auth/login?redirectTo=/auth/settings");
   }
 
   return (

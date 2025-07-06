@@ -14,8 +14,11 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { searchQuotes } from "@/lib/api/quotes";
+import { getSession } from "@/lib/auth/server";
 import { getUserSavedQuotes } from "@/lib/db/queries";
 import { Suspense } from "react";
+
+export const experimental_ppr = true;
 
 // Define the search page props
 interface SearchPageProps {
@@ -80,6 +83,8 @@ async function SearchResults({
 }) {
   // Fetch all saved quotes for the current user
   const { quotes, savedQuotesMap } = await getUserSavedQuotes();
+  const { user } = await getSession();
+  const userId = user?.id;
 
   // Parse the lengths parameter
   const lengthsArray = lengths
@@ -157,6 +162,7 @@ async function SearchResults({
               quote={quote}
               initialSavedState={isSaved}
               savedQuotesMap={savedQuotesMap}
+              userId={userId}
             />
           );
         })}

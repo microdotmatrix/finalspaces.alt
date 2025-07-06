@@ -19,12 +19,14 @@ interface QuoteCardProps {
   // Optional props for optimization
   initialSavedState?: boolean;
   savedQuotesMap?: Map<string, boolean>;
+  userId?: string;
 }
 
 export function QuoteCard({
   quote,
   initialSavedState,
   savedQuotesMap,
+  userId,
 }: QuoteCardProps) {
   const [copied, setCopied] = useState(false);
   const [isSaved, setIsSaved] = useState(initialSavedState || false);
@@ -84,21 +86,22 @@ export function QuoteCard({
           : await saveQuote(quote.quote, quote.author);
 
         if (result.success) {
-          toast.success(result.message);
-          // Toggle the saved state
-          setIsSaved(!isSaved);
-
-          // Update the savedQuotesMap if it exists
-          if (savedQuotesMap) {
-            const key = `${quote.quote}|${quote.author}`;
-            if (isSaved) {
-              // Remove from map
-              savedQuotesMap.delete(key);
-            } else {
-              // Add to map
-              savedQuotesMap.set(key, true);
+          startTransition(() => {
+            toast.success(result.message);
+            // Toggle the saved state
+            setIsSaved(!isSaved);
+            // Update the savedQuotesMap if it exists
+            if (savedQuotesMap) {
+              const key = `${quote.quote}|${quote.author}`;
+              if (isSaved) {
+                // Remove from map
+                savedQuotesMap.delete(key);
+              } else {
+                // Add to map
+                savedQuotesMap.set(key, true);
+              }
             }
-          }
+          });
         } else {
           toast.error(result.message);
         }
@@ -148,9 +151,9 @@ export function QuoteCard({
         <Button
           variant="ghost"
           size="icon"
-          className="opacity-50 hover:opacity-100"
+          className="opacity-50 hover:opacity-100 disabled:opacity-50"
           onClick={handleToggleSaveQuote}
-          disabled={isPending}
+          disabled={isPending || !userId}
           title={isSaved ? "Remove from saved quotes" : "Save quote"}
         >
           <svg

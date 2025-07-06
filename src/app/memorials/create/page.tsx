@@ -39,9 +39,9 @@ export default async function Create({
     )) as PlacidImage[];
   }
   const { session } = await getSession();
-  if (!session) redirect("/auth/login?redirectTo=/create");
+  if (!session?.user) redirect("/auth/login?redirectTo=/create");
 
-  const userId = session.user.id;
+  const userId = session?.user.id;
   const uploads = await getUserUploads(userId);
   const { quotes } = await getUserSavedQuotes();
 

@@ -2,12 +2,15 @@ import "server-only";
 
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function getSession() {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user) {
-    throw new Error("Unauthorized");
+    return {
+      error: "User not authorized",
+    };
   }
 
   return {
@@ -20,8 +23,6 @@ export async function isAuthorized() {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user) {
-    throw new Error("Unauthorized");
+    redirect("/auth/login");
   }
-
-  return session?.user;
 }

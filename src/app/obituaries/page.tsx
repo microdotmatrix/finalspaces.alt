@@ -3,9 +3,11 @@ import { getSession } from "@/lib/auth/server";
 import { getUserObituariesDraft } from "@/lib/db/queries";
 import { redirect } from "next/navigation";
 
+export const experimental_ppr = true;
+
 export default async function ObituaryPage() {
   const { session } = await getSession();
-  if (!session) {
+  if (!session?.user) {
     redirect("/auth/login?redirectTo=/obituaries");
   }
 

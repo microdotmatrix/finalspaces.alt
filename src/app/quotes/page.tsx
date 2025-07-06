@@ -5,6 +5,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Suspense } from "react";
 
+export const experimental_ppr = true;
+
 export default function Quotes() {
   return (
     <main className="py-12 px-4">

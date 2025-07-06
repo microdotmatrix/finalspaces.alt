@@ -17,7 +17,7 @@ const defaultTransition: Transition = {
   mass: 1,
 };
 
-const Copy = ({
+export const CopyButton = ({
   width = 28,
   height = 28,
   strokeWidth = 2,
@@ -78,5 +78,3 @@ const Copy = ({
     </div>
   );
 };
-
-export { Copy };
