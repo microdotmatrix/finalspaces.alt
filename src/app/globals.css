@@ -160,10 +160,10 @@
   }
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
   }
   body {
-    @apply bg-background text-foreground font-body max-w-screen min-h-dvh flex flex-col;
+    @apply bg-background text-foreground font-body min-h-dvh flex flex-col;
+    min-width: 320px;
   }
   h1,
   h2,
@@ -199,7 +199,6 @@
     cursor: pointer;
   }
   main {
-    margin-block: 5rem;
     flex-grow: 1;
   }
 }

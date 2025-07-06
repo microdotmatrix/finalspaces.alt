@@ -37,7 +37,7 @@ export default function RootLayout({
           display.variable,
           heading.variable,
           mono.variable,
-          "antialiased"
+          "antialiased w-full md:w-auto"
         )}
       >
         <AppContext>

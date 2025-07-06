@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { UserButton } from "@daveyplate/better-auth-ui";
+import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "../theme/toggle";
@@ -9,9 +10,32 @@ import { Icon } from "../ui/icon";
 
 export const Header = () => {
   const pathname = usePathname();
+  const { scrollY } = useScroll();
+
+  // Transform scroll position to background opacity
+  const backgroundOpacity = useTransform(scrollY, [0, 50], [0, 0.8]);
+  const backdropBlur = useTransform(scrollY, [0, 50], [0, 12]);
 
   return (
-    <header className="fixed w-full top-0 z-50 flex items-center justify-between px-4 py-2 lg:py-4">
+    <motion.header
+      className="sticky w-full top-0 z-50 flex items-center justify-between px-4 py-2 lg:py-4"
+      style={{
+        backgroundColor: useTransform(
+          backgroundOpacity,
+          (opacity) =>
+            `oklch(from oklch(var(--color-background)) l c h / ${opacity * 0.1})`
+        ),
+        backdropFilter: useTransform(
+          backdropBlur,
+          (blur) => `blur(${blur}px) saturate(80%)`
+        ),
+        borderBottom: useTransform(
+          backgroundOpacity,
+          (opacity) =>
+            `1px solid oklch(from oklch(var(--color-secondary)) l c h / ${opacity * 0.2})`
+        ),
+      }}
+    >
       <section>
         <Link href="/" className="hidden md:block hover:text-primary">
           <Icon
@@ -82,6 +106,6 @@ export const Header = () => {
           <ThemeToggle />
         </div>
       </section>
-    </header>
+    </motion.header>
   );
 };
