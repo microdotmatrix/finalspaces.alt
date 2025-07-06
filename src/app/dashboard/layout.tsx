@@ -1,5 +1,4 @@
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getSession } from "@/lib/auth/server";
@@ -33,7 +32,16 @@ export default async function DashboardLayout({
           </div>
           <div className="gap-2 items-center hidden lg:flex">
             <Link
-              href="/memorials/create"
+              href="/obituaries"
+              className={buttonVariants({
+                variant: "default",
+                size: "sm",
+              })}
+            >
+              <Icon icon="mdi:pencil" className="mr-1" /> New Obituary
+            </Link>
+            <Link
+              href="/epitaphs"
               className={buttonVariants({
                 variant: "default",
                 size: "sm",
@@ -76,7 +84,7 @@ export default async function DashboardLayout({
 
         {/* Recent Activity */}
 
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle className="text-lg font-semibold">
               Recent Activity
@@ -121,7 +129,7 @@ export default async function DashboardLayout({
               )}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </main>
   );

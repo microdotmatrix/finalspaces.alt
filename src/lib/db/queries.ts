@@ -136,6 +136,7 @@ export const getUserSavedQuotes: () => Promise<{
 
     const result = await db.query.savedQuotes.findMany({
       where: eq(savedQuotes.userId, userId),
+      orderBy: (savedQuotes, { desc }) => [desc(savedQuotes.createdAt)],
     });
 
     const savedQuotesMap = new Map<string, boolean>();
@@ -172,6 +173,7 @@ export const getUserObituaries: () => Promise<Obituary[]> = cache(async () => {
 
     const result = await db.query.obituaries.findMany({
       where: eq(obituaries.userId, userId),
+      orderBy: (obituaries, { desc }) => [desc(obituaries.createdAt)],
     });
 
     return result;
@@ -194,6 +196,9 @@ export const getUserObituariesDraft: () => Promise<ObituaryDraft[]> = cache(
 
       const result = await db.query.obituariesDraft.findMany({
         where: eq(obituariesDraft.userId, userId),
+        orderBy: (obituariesDraft, { desc }) => [
+          desc(obituariesDraft.updatedAt),
+        ],
       });
 
       return result;

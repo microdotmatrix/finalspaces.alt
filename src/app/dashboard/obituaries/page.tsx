@@ -3,31 +3,23 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { Separator } from "@/components/ui/separator";
-import { getSession } from "@/lib/auth/server";
 import { getUserObituaries, getUserObituariesDraft } from "@/lib/db/queries";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export const experimental_ppr = true;
 
 export default async function ObituariesDashboard() {
-  const { session } = await getSession();
-
-  if (!session?.user) {
-    redirect("/auth/login?redirect=/dashboard/obituaries");
-  }
-
   const [obituaries, drafts] = await Promise.all([
     getUserObituaries(),
     getUserObituariesDraft(),
   ]);
 
   return (
-    <main className="container mx-auto py-8 px-4 space-y-8">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex flex-col lg:flex-row items-center justify-between">
-        <div>
+        <div className="mb-6">
           <h3 className="flex items-center gap-4 font-bold tracking-tight">
             My Obituaries
             {obituaries.length > 0 && (
@@ -40,12 +32,15 @@ export default async function ObituariesDashboard() {
             Manage your created obituaries and saved drafts
           </p>
         </div>
-        <Button asChild>
-          <Link href="/obituaries">
-            <Icon icon="lucide:plus" className="h-4 w-4 mr-2" />
-            Create New
-          </Link>
-        </Button>
+        <Link
+          href="/obituaries"
+          className={buttonVariants({
+            variant: "default",
+          })}
+        >
+          <Icon icon="lucide:plus" className="size-4" />
+          <span className="sr-only">Create New</span>
+        </Link>
       </div>
 
       {/* Recent Obituaries */}
@@ -61,12 +56,13 @@ export default async function ObituariesDashboard() {
               <p className="text-muted-foreground text-center mb-4">
                 Create your first obituary to see it here
               </p>
-              <Button asChild>
-                <Link href="/obituaries">
-                  <Icon icon="lucide:plus" className="h-4 w-4 mr-2" />
-                  Create Obituary
-                </Link>
-              </Button>
+              <Link
+                href="/obituaries"
+                className={buttonVariants({ variant: "default" })}
+              >
+                <Icon icon="lucide:plus" className="h-4 w-4 mr-2" />
+                Create Obituary
+              </Link>
             </CardContent>
           </Card>
         ) : (
@@ -206,6 +202,6 @@ export default async function ObituariesDashboard() {
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }

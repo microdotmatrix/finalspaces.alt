@@ -43,7 +43,7 @@ export const MemorialSection = () => {
 
           <Card className="bg-card/50 backdrop-blur-sm border-none shadow-lg">
             <CardContent>
-              <p className="text-base leading-relaxed">
+              <p className="text-base leading-relaxed text-pretty">
                 Our image creation tool combines cherished photographs,
                 meaningful quotes, and service information to help you easily
                 design memorial cards and graphics. These personalized visual

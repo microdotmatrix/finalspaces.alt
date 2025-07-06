@@ -67,14 +67,14 @@
 
 :root {
   --background: oklch(0.99 0.01 84.57);
-  --foreground: oklch(0.27 0.03 49.61);
+  --foreground: oklch(0.27 0.02 49.61);
   --card: oklch(0.97 0.01 78.28);
-  --card-foreground: oklch(0.37 0.03 49.61);
+  --card-foreground: oklch(0.37 0.02 49.61);
   --popover: oklch(0.97 0.01 78.28);
-  --popover-foreground: oklch(0.37 0.03 49.61);
+  --popover-foreground: oklch(0.37 0.02 49.61);
   --primary: oklch(0.56 0.15 49);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.83 0.08 74.44);
+  --secondary: oklch(0.83 0.06 74.44);
   --secondary-foreground: oklch(0.44 0.01 73.64);
   --muted: oklch(0.94 0.02 83.26);
   --muted-foreground: oklch(0.55 0.01 58.07);
@@ -82,8 +82,8 @@
   --accent-foreground: oklch(0.44 0.01 73.64);
   --destructive: oklch(0.44 0.16 26.9);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.89 0.04 89.7);
-  --input: oklch(0.89 0.04 89.7);
+  --border: oklch(0.89 0.02 89.7);
+  --input: oklch(0.89 0.02 89.7);
   --ring: oklch(0.56 0.15 49);
   --chart-1: oklch(0.56 0.15 49);
   --chart-2: oklch(0.55 0.01 58.07);
@@ -160,9 +160,10 @@
   }
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   body {
-    @apply bg-background text-foreground font-body min-h-dvh flex flex-col;
+    @apply bg-background text-foreground font-body min-h-dvh flex flex-col transition-all duration-200;
     min-width: 320px;
   }
   h1,
@@ -191,7 +192,7 @@
   h6 {
     @apply text-base;
   }
-  a[href*="http"] {
+  a[href^="http"] {
     @apply underline underline-offset-1 hover:underline-offset-2 hover:text-secondary transition-all;
   }
   button:not(:disabled),

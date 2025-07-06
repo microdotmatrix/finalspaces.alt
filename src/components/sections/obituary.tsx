@@ -1,8 +1,10 @@
 "use client";
 
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { motion } from "motion/react";
+import Link from "next/link";
 import { CardHeading } from "../elements/card-heading";
 
 export const ObituarySection = () => {
@@ -41,7 +43,7 @@ export const ObituarySection = () => {
 
           <Card className="bg-card/50 backdrop-blur-sm border-none shadow-lg">
             <CardContent>
-              <p className="text-base leading-relaxed">
+              <p className="text-base leading-relaxed text-pretty">
                 FinalSpaces helps funeral homes and individuals research the
                 deceased, draft thoughtful obituaries based on personal
                 characteristics, and facilitates a collaborative, human-centered
@@ -50,8 +52,14 @@ export const ObituarySection = () => {
                 life being honored.
               </p>
             </CardContent>
-            <CardFooter>
-              <span className="text-sm italic">Coming soon...</span>
+            <CardFooter className="justify-end">
+              <Link
+                href="/obituaries"
+                className={buttonVariants({ variant: "default", size: "lg" })}
+              >
+                Write an obituary{" "}
+                <Icon icon="lucide:arrow-right" className="inline" />
+              </Link>
             </CardFooter>
           </Card>
         </div>
